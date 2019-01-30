@@ -1,0 +1,77 @@
+- Prolog reference: Programming in Prolog by Clocksin and Mellish
+- Prepared by Prof. Hani Z. Girgis
+
+- XSB Prolog (https://sourceforge.net/projects/xsb/?source=typ_redirect)
+
+- To start Prolog on a unix terminal type: ./xsb
+- To exit Prolog on a unix terminal use: ctr+d or 'halt.'
+
+- Objects and relationships: Prolog is a computer programming language that is used for solving problems that involve objects and the relationships between objects. When we say “John owns the book,” we are declaring that a relationship, ownership, exists between one object “John” and another object “the book.” 
+
+- Facts 
+- likes(john, mary).
+- The names of all relationships and objects must begin with a lower-case letter. For example, likes, john, mary
+- The relationship is written first, and the objects are written separated by commas, and the objects are enclosed by a pair of round brackets
+- The dot character ``.’’ must come at the end of a fact
+- The programmer must decide on the interpretation. There should be no problem as long as you interpret names consistently
+- A collection of facts is called a database
+
+- Questions
+- ?-owns(mary, book)
+- A question looks like a fact, except that we put a special symbole before it ``?-''
+- The answer is ``yes'' or ``no''
+- The answer ``no'' means that nothing unifies with the question. It is not the same as false
+
+- Variables
+- X
+- A variable can be any word that begins with a capital letter
+- A variable is instantiated when there is an object that the variable stands for. A variable is not instantiated when what the variable stands for is not yet known
+
+- Conjunctions
+- The and expresses the idea that we are interested in the conjunction of multiple goals
+- We represent this by putting a comma between the goals
+- Example
+  likes(mary, chocolate).
+  likes(mary, wine).
+  likes(john, wine).
+  likes(john, mary).
+  ?- likes(john, mary), likes(mary, john).
+  ?- likes(mary, X), likes(john, X).
+- When handling a conjunction of goals. Prolog attempts to satisfy each goal in turn, working from left to right.
+- Any time a goal fails (cannot find a unifying fact), Prolog goes back and attempt to satisfy its left-hand neighbour, starting from where it stoped last time
+ 
+- Rules
+- A rule is a general statement about objects and their relationships
+- Rules are used when you want to say that a fact depends on a group of other facts
+- In English, we use the word ``if'' to express a rule
+- Example: X is a sister of Y if X is female and X and Y have the same parents
+- If one X stands for Fred, then all the X's in the same rule must stand for Fred
+- A rule consists of a head and a body. The head and the body are connected by the symbol ``:-'' and it is pronounced if
+- Example
+  male(albert).
+  male(edward).
+  female(alice).
+  female(victoria).
+  parents(edward, victoria, albert).
+  parents(alice, victoria, albert).
+  sister_of(X, Y) :- female(X), parents(X, M, F), parents(Y, M, F).
+  ?- sister_of(alice, edward).
+  ?- sister_of(alice, X).
+- How to modify this rule such that Alice is not a sister of herself? not(X = Y)
+
+- To load facts and rules from file(s):
+consult(myfile).
+consult('file.txt').
+consult('dir/dir1/file').
+consult('dir\\dir1\\file').
+[file1, file2, 'file3.txt', 'file4.txt'].
+consult(file1), consult(file2), consult('file3.txt'), consult('file4.txt').  
+
+- To load facts and rules from the standard input:
+consult(user) then ctr+d when done.
+
+- To see what is happening behind the scenes 
+use trace. 
+use ; to get the next answer
+notrace. to exist
+
